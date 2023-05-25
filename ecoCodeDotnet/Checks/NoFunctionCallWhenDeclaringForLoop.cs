@@ -36,15 +36,36 @@ public class NoFunctionCallWhenDeclaringForLoop : DiagnosticAnalyzer
 
     private static void AnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
     {
-        var loopStatement = (ForStatementSyntax) context.Node;
+        var loopStatement = (ForStatementSyntax)context.Node;
 
         // If the Condition is type InvocationExpression, a function is call when declaring a for-type loop
-        if (loopStatement.Condition.IsKind(SyntaxKind.InvocationExpression))
+        if (IsConditionInvocationExpression(loopStatement.Condition))
         {
             // Report a Diagnostic
             var diagnostic = Diagnostic.Create(Rule, loopStatement.Condition.GetLocation());
             context.ReportDiagnostic(diagnostic);
         }
+    }
+
+    private static bool IsConditionInvocationExpression(ExpressionSyntax expressionSyntax)
+    {
+
+        if (expressionSyntax is BinaryExpressionSyntax binaryExpressionSyntax)
+        {
+            if (IsConditionInvocationExpression(binaryExpressionSyntax.Left))
+            {
+                return true;
+            }
+
+            if (IsConditionInvocationExpression(binaryExpressionSyntax.Right))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        return expressionSyntax.IsKind(SyntaxKind.InvocationExpression);
     }
 }
 

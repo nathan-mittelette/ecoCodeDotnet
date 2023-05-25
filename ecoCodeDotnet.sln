@@ -7,6 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ecoCodeDotnet", "ecoCodeDot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ecoCodeDotnet.Test", "ecoCodeDotnet.Test\ecoCodeDotnet.Test.csproj", "{4ECDB3FA-0F8F-4EEB-A0F1-3A19167F3B89}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{941F7F8E-0E6A-49E0-94C3-AFDE3957EB05}"
+	ProjectSection(SolutionItems) = preProject
+		CHANGELOG.md = CHANGELOG.md
+		ecoCodeDotnet.sln.DotSettings = ecoCodeDotnet.sln.DotSettings
+		NuGet.Config = NuGet.Config
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

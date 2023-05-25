@@ -25,6 +25,13 @@ public class ecoCodeDotnet
             Console.WriteLine(i);
         }
 
+        var intArray = new int[] { 1, 2, 3 };
+
+        for (int i = 0; i < intArray.Count(); i++) // Nocompliant
+        {
+            Console.WriteLine(i);
+        }
+
     }
     
     public bool isForEnded(int i)

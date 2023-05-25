@@ -30,25 +30,38 @@ public class NoFunctionCallWhenDeclaringForLoopTest
     /// Test analyze for containing function call in for-type loop in code NoFunctionCallWhenDeclaringForLoop.cs
     /// </summary>
     [Test]
-    public async Task NoFunctionCallWhenDeclaringForLoopTest_ReportOneDiagnostic()
+    public async Task NoFunctionCallWhenDeclaringForLoopTest_ReportTwoDiagnostics()
     {
         var source = ChecksTestUtils.ReadCodes("NoFunctionCallWhenDeclaringForLoop.cs");
         var analyzer = new NoFunctionCallWhenDeclaringForLoop();
         var diagnostics = await DiagnosticAnalyzerRunner.Run(analyzer, source);
 
-        var actual = diagnostics
+        var actuals = diagnostics
             .Where(x => x.Id != "CS1591") // Ignore "Missing XML comment for publicly visible type or member"
             .Where(x => x.Id != "CS8019") // Ignore "Unnecessary using directive"
             .ToArray();
 
-        Assert.That(actual, Has.Length.EqualTo(1));
-        Assert.That(actual.First().Id, Is.EqualTo(NoFunctionCallWhenDeclaringForLoop.DiagnosticId));
-        Assert.That(actual.First().GetMessage(), Is.EqualTo(NoFunctionCallWhenDeclaringForLoop.Message));
+        Assert.That(actuals, Has.Length.EqualTo(2));
 
+        foreach(var actual in actuals)
+        {
+            Assert.That(actual.Id, Is.EqualTo(NoFunctionCallWhenDeclaringForLoop.DiagnosticId));
+            Assert.That(actual.GetMessage(), Is.EqualTo(NoFunctionCallWhenDeclaringForLoop.Message));
+        }
+
+
+        // Check first one
         LocationAssert.HaveTheSpan(
             new LinePosition(22, 24),
             new LinePosition(22, 37),
-            actual.First().Location
+            actuals[0].Location
+        );
+
+        // Check second one
+        LocationAssert.HaveTheSpan(
+            new LinePosition(29, 24),
+            new LinePosition(29, 44),
+            actuals[1].Location
         );
     }
 }
